@@ -404,9 +404,6 @@ int main(int argc, char* argv[])
                 {
                     for (int ex=0; ex<NUM_FRAME_EXP; ex++)
                     {
-    //                    int x_pos = p_bullet->GetRect().x;
-    //                    int y_pos = p_bullet->GetRect().y- frame_exp_height*0.5;
-
                         exp_threat.set_frame(ex);
                         exp_threat.SetRect(x_pos, y_pos);
                         exp_threat.Show(g_screen);
