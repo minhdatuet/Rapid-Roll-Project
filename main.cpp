@@ -170,8 +170,6 @@ int main(int argc, char* argv[])
         game_map.LoadMap("map/map01.dat");
         game_map.LoadTiles(g_screen);
 
-        std::vector<ThreatsObj*> threats_list = MakeThreadList();
-
         int death_recent = 30, lifes = 3, killed_threat = 0, killed_recent = 0, first_loop = 40;
         Uint32 time_Menu = 0, scores_last  = 0;
 
@@ -195,12 +193,29 @@ int main(int argc, char* argv[])
 
 
         int ret_Menu = SDLCommonFunc::ShowMenu(g_screen, scores_font, time_Menu);
-        int ret_level = 0, ret_character = 0;
-        if (ret_Menu == 1) is_loss = true;
+        int ret_level = 0, ret_character = 0, ret_ins = 0;
+        if (ret_Menu == 1)
+        {
+            while (ret_Menu == 1)
+            {
+                ret_ins = SDLCommonFunc::ShowIns(g_screen, scores_font, time_Menu);
+                if (ret_ins == 0) ret_Menu = SDLCommonFunc::ShowMenu(g_screen, scores_font, time_Menu);
+                if (ret_Menu == 2)
+                {
+                    is_loss = true;
+                    break;
+                }
+            }
+        }
         if (ret_Menu == 0)
         {
             ret_level = SDLCommonFunc::ShowLevel(g_screen, scores_font, time_Menu);
             ret_character = SDLCommonFunc::ShowCharacter(g_screen, scores_font, time_Menu);
+        }
+        if (ret_Menu == 2)
+        {
+            is_loss = true;
+            break;
         }
 
         MainObj p_player;
@@ -217,8 +232,14 @@ int main(int argc, char* argv[])
             break;
         }
         p_player.SetCharacter(ret_character);
-
         p_player.set_clips();
+
+        std::vector<ThreatsObj*> threats_list = MakeThreadList();
+
+        ExplosionObj exp_threat;
+        bool tRet = exp_threat.LoadImg("img//exp.png", g_screen);
+        if (!tRet) return -1;
+        exp_threat.set_clip();
 
         switch (ret_level)
         {
@@ -234,6 +255,7 @@ int main(int argc, char* argv[])
         default:
             break;
         }
+
 
         while (!is_loss)
         {
@@ -330,9 +352,11 @@ int main(int argc, char* argv[])
             Scores.LoadFromRenderText(scores_font, g_screen);
             Scores.RenderText(g_screen, SCREEN_WIDTH-300, 5);
 
+            int frame_exp_width = exp_threat.get_width_frame();
+            int frame_exp_height = exp_threat.get_height_frame();
+            int x_pos, y_pos;
 
-
-        std::vector<BulletObj*> bullet_arr = p_player.get_bullet_list();
+            std::vector<BulletObj*> bullet_arr = p_player.get_bullet_list();
             for (int r = 0; r < bullet_arr.size(); r++)
             {
                 BulletObj* p_bullet = bullet_arr.at(r);
@@ -356,6 +380,9 @@ int main(int argc, char* argv[])
 
                             if (bCol)
                             {
+                                x_pos = p_bullet->GetRect().x;
+                                y_pos = p_bullet->GetRect().y- frame_exp_height*0.5;
+
                                 p_player.RemoveBullet(r);   // trước tiên đạn trúng thì phải xóa đạn
                                 Mix_PlayChannel(-1, chunkExp, 0);
                                 obj_threat->Free();         // xóa threat bị trúng đạn
@@ -373,6 +400,19 @@ int main(int argc, char* argv[])
             if (killed_recent > 0)
             {
                 killed_recent--;
+                if (killed_recent > 25)
+                {
+                    for (int ex=0; ex<NUM_FRAME_EXP; ex++)
+                    {
+    //                    int x_pos = p_bullet->GetRect().x;
+    //                    int y_pos = p_bullet->GetRect().y- frame_exp_height*0.5;
+
+                        exp_threat.set_frame(ex);
+                        exp_threat.SetRect(x_pos, y_pos);
+                        exp_threat.Show(g_screen);
+
+                    }
+                }
                 AddScores.LoadFromRenderText(scores_font, g_screen);
                 AddScores.RenderText(g_screen, SCREEN_WIDTH-100, 40 );
             }

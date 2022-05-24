@@ -71,6 +71,7 @@ namespace SDLCommonFunc
     int ShowLevel(SDL_Renderer* des, TTF_Font* font, Uint32 &time_Menu);
     int ShowCharacter(SDL_Renderer* des, TTF_Font* font, Uint32 &time_Menu);
     int ShowExit(SDL_Renderer* des, TTF_Font* font, Uint32 scores_last, Uint32 high_scores, int ret_character );
+    int ShowIns(SDL_Renderer* des, TTF_Font* font, Uint32 &time_Menu);
 
 }
 

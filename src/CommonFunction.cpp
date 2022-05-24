@@ -110,7 +110,7 @@ int SDLCommonFunc::ShowMenu(SDL_Renderer* des, TTF_Font* font, Uint32 &time_menu
 
     if (!ret_menu || !ret_buttom) return -1;
 
-    const int kMenuItemNum = 2;
+    const int kMenuItemNum = 3;
 
     TextObj text_menu[kMenuItemNum], title;
 
@@ -125,15 +125,23 @@ int SDLCommonFunc::ShowMenu(SDL_Renderer* des, TTF_Font* font, Uint32 &time_menu
     text_menu[0].rect_.h = text_menu[0].GetHeight();
     text_menu[0].rect_.w = text_menu[0].GetWidth();
 
-    text_menu[1].SetText("Exit");
+    text_menu[1].SetText("Instructions");
     text_menu[1].SetColor(TextObj::WHITE_TEXT);
-    text_menu[1].rect_.x = 280;
+    text_menu[1].rect_.x = 210;
     text_menu[1].rect_.y = 480;
     text_menu[1].LoadFromRenderText(font, des);
-    text_menu[1].rect_.h = text_menu[0].GetHeight();
-    text_menu[1].rect_.w = text_menu[0].GetWidth();
+    text_menu[1].rect_.h = text_menu[1].GetHeight();
+    text_menu[1].rect_.w = text_menu[1].GetWidth();
 
-    bool selected[kMenuItemNum] = {0, 0};
+    text_menu[2].SetText("Exit");
+    text_menu[2].SetColor(TextObj::WHITE_TEXT);
+    text_menu[2].rect_.x = 280;
+    text_menu[2].rect_.y = 600;
+    text_menu[2].LoadFromRenderText(font, des);
+    text_menu[2].rect_.h = text_menu[2].GetHeight();
+    text_menu[2].rect_.w = text_menu[2].GetWidth();
+
+    bool selected[kMenuItemNum] = {0, 0, 0};
     int xm = 0, ym = 0;
     SDL_Event m_event;
 
@@ -250,16 +258,16 @@ int SDLCommonFunc::ShowLevel(SDL_Renderer* des, TTF_Font* font, Uint32 &time_Lev
     text_Level[1].rect_.x = 250;
     text_Level[1].rect_.y = 480;
     text_Level[1].LoadFromRenderText(font, des);
-    text_Level[1].rect_.h = text_Level[0].GetHeight();
-    text_Level[1].rect_.w = text_Level[0].GetWidth();
+    text_Level[1].rect_.h = text_Level[1].GetHeight();
+    text_Level[1].rect_.w = text_Level[1].GetWidth();
 
     text_Level[2].SetText("Hard");
     text_Level[2].SetColor(TextObj::WHITE_TEXT);
     text_Level[2].rect_.x = 270;
     text_Level[2].rect_.y = 600;
     text_Level[2].LoadFromRenderText(font, des);
-    text_Level[2].rect_.h = text_Level[0].GetHeight();
-    text_Level[2].rect_.w = text_Level[0].GetWidth();
+    text_Level[2].rect_.h = text_Level[2].GetHeight();
+    text_Level[2].rect_.w = text_Level[2].GetWidth();
 
     bool selected[kLevelItemNum] = {0, 0, 0};
     int xm = 0, ym = 0;
@@ -592,6 +600,105 @@ int SDLCommonFunc::ShowExit(SDL_Renderer* des, TTF_Font* font, Uint32 scores_las
                     for (int i=0; i<kExitItemNum; i++)
                     {
                         if (CheckFocusWithRect(xm, ym, text_Exit[i].GetRect()))
+                        {
+                            return i;
+                        }
+                    }
+                }
+                break;
+            case SDL_KEYDOWN:
+                if (m_event.key.keysym.sym == SDLK_ESCAPE)
+                {
+                    return 1;
+                }
+            default:
+                break;
+
+
+            }
+        }
+        SDL_RenderPresent(des);
+    }
+
+    return 0;
+}
+
+int SDLCommonFunc::ShowIns(SDL_Renderer* des, TTF_Font* font, Uint32 &time_Ins)
+{
+    BaseObj Ins;
+    bool ret_Ins = Ins.LoadImg("img//instructions.png", des);
+
+    if (!ret_Ins ) return -1;
+
+    const int kInsItemNum = 1;
+
+    TextObj text_Ins[kInsItemNum];
+
+    text_Ins[0].SetText("Back");
+    text_Ins[0].SetColor(TextObj::WHITE_TEXT);
+    text_Ins[0].rect_.x = 320;
+    text_Ins[0].rect_.y = 670;
+    text_Ins[0].LoadFromRenderText(font, des);
+    text_Ins[0].rect_.h = text_Ins[0].GetHeight();
+    text_Ins[0].rect_.w = text_Ins[0].GetWidth();
+
+    bool selected[kInsItemNum] = {0};
+    int xm = 0, ym = 0;
+    SDL_Event m_event;
+
+    while(1)
+    {
+
+        SDL_RenderClear(des);
+        Ins.Render(des, NULL);
+        for (int i=0; i < kInsItemNum; i++)
+        {
+            text_Ins[i].LoadFromRenderText(font, des);
+            text_Ins[i].RenderText(des, text_Ins[i].rect_.x, text_Ins[i].rect_.y);
+        }
+        while (SDL_PollEvent(&m_event))
+        {
+            time_Ins = SDL_GetTicks();
+            switch (m_event.type)
+            {
+            case SDL_QUIT:
+                return 0;
+            case SDL_MOUSEMOTION:
+                {
+                    xm = m_event.motion.x;
+                    ym = m_event.motion.y;
+
+                    for (int i=0; i<kInsItemNum; i++)
+                    {
+                        if (CheckFocusWithRect(xm, ym, text_Ins[i].GetRect()))
+                        {
+                            if (selected[i] == false)
+                            {
+                                selected[i] = 1;
+                                text_Ins[i].SetColor(TextObj::RED_TEXT);
+
+                            }
+                        }
+                        else
+                        {
+                            if (selected[i] == true)
+                            {
+                                selected[i] = 0;
+                                text_Ins[i].SetColor(TextObj::WHITE_TEXT);
+
+                            }
+                        }
+                    }
+                }
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                {
+                    xm = m_event.button.x;
+                    ym = m_event.button.y;
+
+                    for (int i=0; i<kInsItemNum; i++)
+                    {
+                        if (CheckFocusWithRect(xm, ym, text_Ins[i].GetRect()))
                         {
                             return i;
                         }

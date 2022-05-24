@@ -6,7 +6,7 @@
 #include <BaseObj.h>
 #include <CommonFunction.h>
 
-#define NUM_FRAME_EXP 8
+#define NUM_FRAME_EXP 24
 
 const int EXP_WIDTH = 165;
 const int EXP_HEIGHT = 165;
@@ -30,7 +30,7 @@ private:
     int height_frame_;
 
     unsigned int frame_;
-    SDL_Rect frame_clip_[8];
+    SDL_Rect frame_clip_[24];
 };
 
 #endif // EXPLOSIONOBJ_H
