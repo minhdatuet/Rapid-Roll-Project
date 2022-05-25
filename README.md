@@ -19,6 +19,8 @@
 
       ![](img//player.png)   ![](img//player1.png) ![](img//player2.png)
    + Thêm 2 loại quái vật đứng im và có di chuyển.
+   ### *Preview:*
+   ![](img//preview.png) ![](img//preview2.png)
 
    
 ## **3. Mô tả các chức năng đã cài đặt:**
