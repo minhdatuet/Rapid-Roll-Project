@@ -7,11 +7,11 @@
 
 #define MAX_TILES 20
 
-class TileMat : public BaseObj
+class TileMap : public BaseObj
 {
 public:
-     TileMat() {;}
-     ~TileMat() {;}
+     TileMap() {;}
+     ~TileMap() {;}
 };
 
 class GameMap
@@ -28,7 +28,7 @@ public:
 
 private:
     Map game_map_;
-    TileMat tile_mat[MAX_TILES];
+    TileMap tile_map[MAX_TILES];
 };
 
 #endif // GAME_MAP_H

@@ -62,7 +62,7 @@ void GameMap::LoadTiles(SDL_Renderer* screen)
 
         fclose(fp);
 
-        tile_mat[i].LoadImg(file_img, screen);
+        tile_map[i].LoadImg(file_img, screen);
     }
 }
 
@@ -95,8 +95,8 @@ void GameMap::DrawMap(SDL_Renderer* screen)
             int val = game_map_.tile[map_y][map_x];
             if (val > 0)
             {
-                tile_mat[val].SetRect(j, i);
-                tile_mat[val].Render(screen);
+                tile_map[val].SetRect(j, i);
+                tile_map[val].Render(screen);
             }
             map_x++;
         }

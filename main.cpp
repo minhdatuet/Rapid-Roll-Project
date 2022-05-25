@@ -189,27 +189,27 @@ int main(int argc, char* argv[])
 
 
         // Load menu, level, character, instructions
-        int ret_Menu = SDLCommonFunc::ShowMenu(g_screen, scores_font, time_Menu);
+        int ret_menu = SDLCommonFunc::ShowMenu(g_screen, scores_font, time_Menu);
         int ret_level = 0, ret_character = 0, ret_ins = 0;
-        if (ret_Menu == 1)
+        if (ret_menu == 1)
         {
-            while (ret_Menu == 1)
+            while (ret_menu == 1)
             {
                 ret_ins = SDLCommonFunc::ShowIns(g_screen, scores_font, time_Menu);
-                if (ret_ins == 0) ret_Menu = SDLCommonFunc::ShowMenu(g_screen, scores_font, time_Menu);
-                if (ret_Menu == 2)
+                if (ret_ins == 0) ret_menu = SDLCommonFunc::ShowMenu(g_screen, scores_font, time_Menu);
+                if (ret_menu == 2)
                 {
                     is_loss = true;
                     break;
                 }
             }
         }
-        if (ret_Menu == 0)
+        if (ret_menu == 0)
         {
             ret_level = SDLCommonFunc::ShowLevel(g_screen, scores_font, time_Menu);
             ret_character = SDLCommonFunc::ShowCharacter(g_screen, scores_font, time_Menu);
         }
-        if (ret_Menu == 2)
+        if (ret_menu == 2)
         {
             is_loss = true;
             break;
