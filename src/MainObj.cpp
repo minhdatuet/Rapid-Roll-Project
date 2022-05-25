@@ -6,18 +6,18 @@
 MainObj::MainObj()
 {
     frame_ = 0;                // xử lí animations của player
-    x_pos_ = 320;                // xử lí vị trí của player
+    x_pos_ = 320;                // xử lí vị trí ban đầu của player
     y_pos_ = 400;                //
     x_val_ = 0;                // xử lí lượng di chuyển của player
     y_val_ = 0;                //
     width_frame_ = 0;          // chiều rộng player
     height_frame_ = 0;         // chiều cao player
     status_ = WALK_NONE;    // trạng thái của player
-    input_type_.left_ = 0;        //
-    input_type_.right_ = 0;       //
-    input_type_.jump_ = 0;        // xử lí chuyển động nhân vật
-    input_type_.down_ = 0;        //
-    input_type_.up_ = 0;          //
+    input_type_.left_ = 0;
+    input_type_.right_ = 0;
+    input_type_.jump_ = 0;
+    input_type_.down_ = 0;
+    input_type_.up_ = 0;
     on_ground_ = false;      // xử lí nhân vật đứng trên đất
     map_x_ = 0;              // xử lí map
     map_y_ = 0;
@@ -112,7 +112,7 @@ void MainObj::HandelInputAction(SDL_Event events, SDL_Renderer* screen, int deat
         {
             switch (events.key.keysym.sym)
             {
-            case SDLK_d:        // nút mũi tên sang phải
+            case SDLK_d:
                 {
                     status_= WALK_RIGHT;
                     input_type_.right_ = 1;
@@ -120,7 +120,7 @@ void MainObj::HandelInputAction(SDL_Event events, SDL_Renderer* screen, int deat
                     UpdateImagePlayer(screen, death_recent);
                 }
                 break;
-            case SDLK_a:         // nút mũi tên sang trái
+            case SDLK_a:
                 {
                     status_ = WALK_LEFT;
                     input_type_.left_ = 1;
@@ -134,12 +134,12 @@ void MainObj::HandelInputAction(SDL_Event events, SDL_Renderer* screen, int deat
         {
             switch (events.key.keysym.sym)
             {
-            case SDLK_d:                    // nhả d ra không chạy sang phải
+            case SDLK_d:
                 {
                     input_type_.right_ = 0;
                 }
                 break;
-            case SDLK_a:                    // nhả a ra không chạy sang trái
+            case SDLK_a:
                 {
                     input_type_.left_ = 0;
                 }
@@ -157,19 +157,19 @@ void MainObj::HandelInputAction(SDL_Event events, SDL_Renderer* screen, int deat
                 {
                 case 0:
                     {
-                        if (status_ == 1) p_bullet->LoadImg("img//player_bullet.png", screen);    // load vào hình ảnh đạn bắn
+                        if (status_ == WALK_RIGHT) p_bullet->LoadImg("img//player_bullet.png", screen);    // load vào hình ảnh đạn bắn
                         else p_bullet->LoadImg("img//player_bullet_left.png", screen);
                     }
                     break;
                 case 1:
                     {
-                        if (status_ == 1) p_bullet->LoadImg("img//player1_bullet.png", screen);    // load vào hình ảnh đạn bắn
+                        if (status_ == WALK_RIGHT) p_bullet->LoadImg("img//player1_bullet.png", screen);    // load vào hình ảnh đạn bắn
                         else p_bullet->LoadImg("img//player1_bullet_left.png", screen);
                     }
                     break;
                 case 2:
                     {
-                        if (status_ == 1) p_bullet->LoadImg("img//player2_bullet.png", screen);    // load vào hình ảnh đạn bắn
+                        if (status_ == WALK_RIGHT) p_bullet->LoadImg("img//player2_bullet.png", screen);    // load vào hình ảnh đạn bắn
                         else p_bullet->LoadImg("img//player2_bullet.png", screen);
                     }
                     break;

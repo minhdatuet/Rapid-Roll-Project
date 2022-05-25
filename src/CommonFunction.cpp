@@ -168,7 +168,7 @@ int SDLCommonFunc::ShowMenu(SDL_Renderer* des, TTF_Font* font, Uint32 &time_menu
             switch (m_event.type)
             {
             case SDL_QUIT:
-                return 1;
+                SDL_Quit();
             case SDL_MOUSEMOTION:
                 {
                     xm = m_event.motion.x;
@@ -296,7 +296,7 @@ int SDLCommonFunc::ShowLevel(SDL_Renderer* des, TTF_Font* font, Uint32 &time_Lev
             switch (m_event.type)
             {
             case SDL_QUIT:
-                return 1;
+                SDL_Quit();
             case SDL_MOUSEMOTION:
                 {
                     xm = m_event.motion.x;
@@ -405,7 +405,7 @@ int SDLCommonFunc::ShowCharacter(SDL_Renderer* des, TTF_Font* font, Uint32 &time
             switch (m_event.type)
             {
             case SDL_QUIT:
-                return 1;
+                SDL_Quit();
             case SDL_MOUSEMOTION:
                 {
                     xm = m_event.motion.x;
@@ -563,7 +563,7 @@ int SDLCommonFunc::ShowExit(SDL_Renderer* des, TTF_Font* font, Uint32 scores_las
             switch (m_event.type)
             {
             case SDL_QUIT:
-                return 1;
+                SDL_Quit();
             case SDL_MOUSEMOTION:
                 {
                     xm = m_event.motion.x;
@@ -662,7 +662,7 @@ int SDLCommonFunc::ShowIns(SDL_Renderer* des, TTF_Font* font, Uint32 &time_Ins)
             switch (m_event.type)
             {
             case SDL_QUIT:
-                return 0;
+                SDL_Quit();
             case SDL_MOUSEMOTION:
                 {
                     xm = m_event.motion.x;

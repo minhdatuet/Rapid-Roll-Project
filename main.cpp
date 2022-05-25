@@ -166,14 +166,11 @@ int main(int argc, char* argv[])
         is_quit = true;
         bool is_loss = false;
 
-        GameMap game_map;
-        game_map.LoadMap("map/map01.dat");
-        game_map.LoadTiles(g_screen);
 
         int death_recent = 30, lifes = 3, killed_threat = 0, killed_recent = 0, first_loop = 40;
         Uint32 time_Menu = 0, scores_last  = 0;
 
-        //âm thanh
+        //Khai báo âm thanh
         Mix_Chunk* chunkDie = Mix_LoadWAV("audio//die.wav");
         Mix_Chunk* chunkExp = Mix_LoadWAV("audio//exp.wav");
         Mix_Chunk* chunkOver = Mix_LoadWAV("audio//over.wav");
@@ -182,8 +179,8 @@ int main(int argc, char* argv[])
         Mix_VolumeMusic(50);
         Mix_PlayMusic(bgm, 10);
 
+        //Khai báo text
         TextObj Scores, GameOver, AddScores;
-
         Scores.SetColor(TextObj::WHITE_TEXT);
         GameOver.SetColor(TextObj::WHITE_TEXT);
         TTF_Font* font_over = TTF_OpenFont("font//karma suture.ttf", 80);
@@ -191,7 +188,7 @@ int main(int argc, char* argv[])
         AddScores.SetColor(TextObj::WHITE_TEXT);
 
 
-
+        // Load menu, level, character, instructions
         int ret_Menu = SDLCommonFunc::ShowMenu(g_screen, scores_font, time_Menu);
         int ret_level = 0, ret_character = 0, ret_ins = 0;
         if (ret_Menu == 1)
@@ -218,6 +215,12 @@ int main(int argc, char* argv[])
             break;
         }
 
+        //Load tile map
+        GameMap game_map;
+        game_map.LoadMap("map/map01.dat");
+        game_map.LoadTiles(g_screen);
+
+        //Load player
         MainObj p_player;
         switch(ret_character)
         {
@@ -234,13 +237,16 @@ int main(int argc, char* argv[])
         p_player.SetCharacter(ret_character);
         p_player.set_clips();
 
+        //Khai báo threat
         std::vector<ThreatsObj*> threats_list = MakeThreadList();
 
+        //Khai báo vụ nổ
         ExplosionObj exp_threat;
         bool tRet = exp_threat.LoadImg("img//exp.png", g_screen);
         if (!tRet) return -1;
         exp_threat.set_clip();
 
+        //Set điểm cộng theo level
         switch (ret_level)
         {
         case 0:
@@ -274,6 +280,8 @@ int main(int argc, char* argv[])
             SDL_RenderClear(g_screen);
 
             g_background.Render(g_screen, NULL);
+
+            //Hiển thị chỉ số mạng
             for (int i=0; i<lifes; i++)
             {
                 num_lifes.SetRect(i*55, 0);
@@ -310,11 +318,10 @@ int main(int argc, char* argv[])
                     {
                         break;
                     }
-
-
                 }
             }
 
+            //Xử lý khi nhân vật chết
             if (p_player.IsDead(map_data, bCol2, death_recent))
             {
                 lifes--;
@@ -326,6 +333,7 @@ int main(int argc, char* argv[])
             p_player.AddLifes(map_data, lifes);
             if (lifes >=5) lifes = 5;
 
+            //Hệ số điểm theo level
             Uint32 level_factor = 1;
             switch (ret_level)
             {
@@ -342,6 +350,7 @@ int main(int argc, char* argv[])
                 break;
             }
 
+            //Load scores
             std::string scores_txt = "Scores: ";
             Uint32 scores_val = 0;
             if (first_loop == 0) scores_val = ((SDL_GetTicks()-time_Menu)/10 + killed_threat*200)*level_factor;
@@ -394,9 +403,12 @@ int main(int argc, char* argv[])
                     }
                 }
             }
+
+            //Hiển thị đếm ngược khi bắt đầu chơi
             if (first_loop > 0) first_loop--;
             p_player.SetFirstLoop(first_loop, g_screen);
 
+            //Hiển thị vụ nổ, điểm cộng
             if (killed_recent > 0)
             {
                 killed_recent--;
@@ -439,7 +451,6 @@ int main(int argc, char* argv[])
                 if (delay_time >= 0)
                     SDL_Delay(delay_time);
             }
-
 
         };
         for (int i = 0; i < threats_list.size(); i++)
