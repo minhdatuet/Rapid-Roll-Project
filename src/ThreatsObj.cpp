@@ -12,7 +12,6 @@ ThreatsObj::ThreatsObj()
     width_frame_ = 0;          // chiều rộng threats
     height_frame_ = 0;         // chiều cao threats
     on_ground_ = false;
-    come_back_time = 0;
 
     animation_a_ = 0;
     animation_b_ = 0;
@@ -53,53 +52,18 @@ void ThreatsObj::set_clips()
 {
     if (width_frame_ > 0 && height_frame_ > 0)
     {
-        frame_clip_[0].x = 0;
-        frame_clip_[0].y = 0;
-        frame_clip_[0].w = width_frame_;
-        frame_clip_[0].h = height_frame_;
-
-        frame_clip_[1].x = width_frame_;
-        frame_clip_[1].y = 0;
-        frame_clip_[1].w = width_frame_;
-        frame_clip_[1].h = height_frame_;
-
-        frame_clip_[2].x = 2*width_frame_;
-        frame_clip_[2].y = 0;
-        frame_clip_[2].w = width_frame_;
-        frame_clip_[2].h = height_frame_;
-
-        frame_clip_[3].x = 3*width_frame_;
-        frame_clip_[3].y = 0;
-        frame_clip_[3].w = width_frame_;
-        frame_clip_[3].h = height_frame_;
-
-        frame_clip_[4].x = 4*width_frame_;
-        frame_clip_[4].y = 0;
-        frame_clip_[4].w = width_frame_;
-        frame_clip_[4].h = height_frame_;
-
-        frame_clip_[5].x = 5*width_frame_;
-        frame_clip_[5].y = 0;
-        frame_clip_[5].w = width_frame_;
-        frame_clip_[5].h = height_frame_;
-
-        frame_clip_[6].x = 6*width_frame_;
-        frame_clip_[6].y = 0;
-        frame_clip_[6].w = width_frame_;
-        frame_clip_[6].h = height_frame_;
-
-        frame_clip_[7].x = 7*width_frame_;
-        frame_clip_[7].y = 0;
-        frame_clip_[7].w = width_frame_;
-        frame_clip_[7].h = height_frame_;
-
+        for (int i=0; i<THREAT_FRAME_NUM; i++)
+        {
+            frame_clip_[i].x = i*width_frame_;
+            frame_clip_[i].y = 0;
+            frame_clip_[i].w = width_frame_;
+            frame_clip_[i].h = height_frame_;
+        }
     }
 }
 
 void ThreatsObj::Show(SDL_Renderer* des)
 {
-    if (come_back_time == 0)
-    {
         rect_.x = x_pos_ - map_x_;
         rect_.y = y_pos_ - map_y_;
         frame_++;
@@ -111,13 +75,10 @@ void ThreatsObj::Show(SDL_Renderer* des)
         SDL_Rect* currentClip = &frame_clip_[frame_];
         SDL_Rect rendQuad = {rect_.x, rect_.y , width_frame_, height_frame_};
         SDL_RenderCopy(des, p_object_, currentClip, &rendQuad);
-    }
 }
 
 void ThreatsObj::DoPlayer(Map& gMap)
 {
-    if (come_back_time == 0)
-    {
         x_val_ = 0;
         y_val_ += THREAT_GRAVITY_SPEED;
         if (y_val_ >= THREAT_MAX_FAIL_SPEED)
@@ -136,52 +97,9 @@ void ThreatsObj::DoPlayer(Map& gMap)
         }
 
         CheckToMap(gMap);
-    }
-    else if (come_back_time > 0)
-    {
-        come_back_time--;
-        if (come_back_time == 0)
-        {
-            InitThreats();
-        }
-    }
 }
 
-void ThreatsObj::InitThreats()
-{
-    x_val_ = 0;
-    y_val_ = 0;
-    if (x_pos_ > 256)
-    {
-        x_pos_ -= 256;
-        animation_a_ -= 256;     // xử lí việc threats rơi xuống vực và thay đổi khoảng mốc di chuyển gốc
-        animation_b_ -= 256;
-    }
-    else
-    {
-        x_pos_ = 0;
-    }
-    y_pos_ = 0;
-    come_back_time = 0;
-    input_type_.left_ = 1;
-}
 
-// hàm xóa bullet
-//void ThreatsObj::RemoveBullet(const int& idx)
-//{
-//    int size = bullet_list_.size();
-//    if (size > 0 && idx < size)
-//    {
-//        BulletObj* p_bullet = p_bullet_list_.at(idx);
-//        p_bullet_list_.erase(p_bullet_list_.begin() + idx);
-//
-//        if (p_bullet)
-//        {
-//            delete p_bullet;
-//            p_bullet = NULL;
-//        }
-//    }
-//}
 
 void ThreatsObj::CheckToMap(Map& map_data)
 {

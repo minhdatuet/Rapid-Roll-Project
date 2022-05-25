@@ -43,7 +43,6 @@ public:
 
     void DoPlayer(Map& gMap);
     void CheckToMap(Map& gMap);
-    void InitThreats();
     void set_type_move(const int& typeMove) {type_move_ = typeMove;}
     void SetAnimationPos(const int& pos_a, const int& pos_b) {animation_a_ = pos_a, animation_b_ = pos_b;}
     void set_input_left(const int& ipLeft) {input_type_.left_ = ipLeft;};
@@ -69,7 +68,6 @@ private:
     int map_x_;
     int map_y_;
 
-    int come_back_time;
     SDL_Rect frame_clip_[THREAT_FRAME_NUM];
 
     int type_move_;
