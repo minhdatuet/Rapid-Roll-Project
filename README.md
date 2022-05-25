@@ -8,7 +8,7 @@
 + Bài tập lớn:  **Rapid Roll**  /INT2215 1 - Lập trình nâng cao
 
 ## **1. Hướng dẫn cài đặt game**
-   + Vào link: https://cutt.ly/nH0u4Nz
+   + Vào link: https://cutt.ly/nH0u4Nz hoặc tại Github vào nút Code màu xanh lá cây -> Downloads Zip
    + Tải và giải nén file RapidRoll.rar
    + Truy cập theo thứ tự: RapidRoll -> bin -> Debug -> RapidRoll.exe
 ## **2. Mô tả chung về trò chơi:**
