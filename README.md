@@ -41,12 +41,12 @@
       1. Thêm các chức năng cho menu như điều chỉnh âm lượng, nhập tên, back từ phần chọn level và character về menu, thêm danh sách và tên các người chơi có điểm cao nhất.
       2. Thêm chế độ 2 người chơi, hướng đến tựa game đối kháng.
       3. Cải thiện đẹp hơn cho phần đồ họa.
-      4. Thiết kế các map khác nhau cho từng độ khó.
-      5. Đóng gói thành file exe để dễ dàng hơn trong việc cài đặt.
+      4. Phát triển hệ thống server-client để nhiều người có thể cùng chơi qua mạng LAN hoặc Internet 
+      5. Cài đặt thuật toán AI cho Bomber (tự chơi) 
    + Các điều tâm đắc rút ra sau khi hoàn thiện chương trình:
       1. Học được cách cài thư viện ngoài vào code
       2. Biết cách sử dụng các hàm của thư viện SDL, SDL_img, SDL_ttf, SDL_mixer
       3. Học được cách xử lý fps cho game.
-      4. Biết quản lý các đối tượng, truyền dữ liệu một cách chính xác.
+      4. Biết cách thiết kế hệ thống các đối tượng một cách phù hợp để tận dụng tối đa sức mạnh của OOP: tái sử dụng code, dễ dàng maintain.
       5. Nhận thấy được các mặt hạn chế cần cố gắng của bản thân.
       
